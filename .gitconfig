@@ -1,0 +1,9 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+name = tom
+email = tom@daftlabs.com
+[push]
+	default = current
+[core]
+	excludesfile = /Users/tom/.gitignore_global
