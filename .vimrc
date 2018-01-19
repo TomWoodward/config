@@ -24,10 +24,6 @@ let g:airline_powerline_fonts = 1
 let g:jsx_ext_required = 0
 let g:ctrlp_prompt_mappings = {'AcceptSelection("e")': [],'AcceptSelection("t")': ['<cr>', '<c-m>'],}
 
-"hi Pmenu ctermbg=white ctermfg=black
-"hi PmenuSel ctermbg=black ctermfg=white
-"hi Folded ctermbg=black ctermfg=white
-
 au BufRead,BufNewFile *.lavender setfiletype jade
 
 execute pathogen#infect()
