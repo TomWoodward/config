@@ -19,3 +19,11 @@ cp ./node_default_packages $NVM_DIR/default-packages
 
 nvm install stable
 nvm alias default stable
+
+if [[ -z "$(which pip)" ]]; then
+  curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+  python get-pip.py --user
+  rm get-pip.py
+fi
+
+pip install -r requirements.txt

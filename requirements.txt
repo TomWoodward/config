@@ -1,0 +1,2 @@
+powerline-status==2.6
+awscli==1.15.75

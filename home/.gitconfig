@@ -2,8 +2,8 @@
 [user]
 # Please adapt and uncomment the following lines:
 name = tom
-email = tom@daftlabs.com
+email = tom.g.woodward@gmail.com
 [push]
 	default = current
 [core]
-	excludesfile = /Users/tom/.gitignore_global
+	excludesfile = /Users/tomwoodward/.gitignore_global
