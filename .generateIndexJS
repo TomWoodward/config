@@ -1,0 +1,8 @@
+touch index.js
+rm index.js
+files=`ls | grep -v 'index.js' | sed 's/\.js//'`
+for file in $files; do echo "import $file from './$file';" >> index.js; done;
+echo "" >> index.js
+echo "export {" >> index.js
+for file in $files; do echo "  $file," >> index.js; done;
+echo "};" >> index.js
