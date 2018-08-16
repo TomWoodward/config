@@ -1,0 +1,5 @@
+brew "reattach-to-user-namespace"
+brew "wget"
+brew "tmux"
+brew "python"
+brew "git"
