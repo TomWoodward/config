@@ -29,6 +29,10 @@ fi
 
 pip install -r requirements.txt
 
+if [[ -z "$(which apex)" ]]; then
+  curl https://raw.githubusercontent.com/apex/apex/master/install.sh | sh
+fi
+
 # from https://github.com/geerlingguy/mac-dev-playbook/issues/26
 osascript <<EOD
 tell application "Terminal"
