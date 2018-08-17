@@ -27,3 +27,23 @@ if [[ -z "$(which pip)" ]]; then
 fi
 
 pip install -r requirements.txt
+
+# from https://github.com/geerlingguy/mac-dev-playbook/issues/26
+osascript <<EOD
+tell application "Terminal"
+  local allOpenedWindows
+  local initialOpenedWindows
+  local windowID
+  set themeName to "TomWoodward" (* Set the name of the theme*)
+  set initialOpenedWindows to id of every window
+  do shell script "open 'TomWoodward.terminal'"
+  delay 1
+  set default settings to settings set themeName
+  set allOpenedWindows to id of every window
+  repeat with windowID in allOpenedWindows
+    if initialOpenedWindows does not contain windowID then
+      close (every window whose id is windowID)
+    end if
+  end repeat
+end tell
+EOD
