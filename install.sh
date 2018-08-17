@@ -1,6 +1,7 @@
 #!/bin/bash
 
 rsync -rtv ./home/ ~/
+rsync -rtv ./fonts/ ~/Library/Fonts
 
 if [[ -z "$(which brew)" ]]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
