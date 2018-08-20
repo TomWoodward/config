@@ -27,7 +27,7 @@ if [[ -z "$(which pip)" ]]; then
   rm get-pip.py
 fi
 
-pip install -r requirements.txt
+pip install --user -r requirements.txt
 
 if [[ -z "$(which apex)" ]]; then
   curl https://raw.githubusercontent.com/apex/apex/master/install.sh | sh
