@@ -14,6 +14,9 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 
+set undofile
+set undodir=~/.vim/undo
+
 autocmd Filetype java setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 
 nnoremap <silent> <C-h> :tabprevious<CR>
