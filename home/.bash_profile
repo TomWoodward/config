@@ -24,6 +24,10 @@ alias gs="git status";
 alias l="ls -lhaG";
 alias e="vim ."
 
+function setupstream() {
+  git branch --set-upstream-to=origin/$(git symbolic-ref --short HEAD)
+}
+
 gpr() {
   branch=`git branch | grep "*" | sed 's/* //'`
   baseurl=`git remote get-url origin | sed 's/^git@github\.com:\(.*\)\.git$/https:\/\/github.com\/\1/'`

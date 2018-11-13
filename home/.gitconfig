@@ -6,4 +6,4 @@ email = tom.g.woodward@gmail.com
 [push]
 	default = current
 [core]
-	excludesfile = /Users/tomwoodward/.gitignore_global
+  excludesfile = ~/.gitignore_global
