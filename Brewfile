@@ -6,3 +6,7 @@ brew "git"
 brew "jq"
 brew "tree"
 brew "siege"
+brew "gpg"
+brew "shellcheck"
+
+cask "docker"

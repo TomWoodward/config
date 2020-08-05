@@ -1,13 +1,17 @@
-. ~/.git-completion.bash
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 #exports
 #======================================================================
 export CLICOLOR=1
 export TERM=xterm-256color
 
+export PATH=${PATH}:~/.bin
 export PATH=${PATH}:~/.composer/vendor/bin
 export PATH=${PATH}:~/Library/Python/2.7/bin
+export PATH=${PATH}:~/Library/Android/sdk/platform-tools/
+export PATH=${PATH}:~/.gem/ruby/2.3.0/bin
 export PATH=${PATH}:/usr/local/php5/bin
+export PATH="$PATH:$HOME/.rbenv/bin"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -22,39 +26,57 @@ alias drmi="docker rmi \$(docker images -q)"
 #======================================================================
 alias gs="git status";
 alias l="ls -lhaG";
-alias e="vim ."
+alias e="vim"
 
 function setupstream() {
-  git branch --set-upstream-to=origin/$(git symbolic-ref --short HEAD)
+  git branch --set-upstream-to="origin/$(git symbolic-ref --short HEAD)"
 }
 
 gpr() {
-  branch=`git branch | grep "*" | sed 's/* //'`
-  baseurl=`git remote get-url origin | sed 's/^git@github\.com:\(.*\)\.git$/https:\/\/github.com\/\1/'`
-  url=$baseurl/compare/master...$branch?expand=1
-  open -a /Applications/Google\ Chrome.app $url
+  branch=$(git rev-parse --abbrev-ref HEAD)
+  baseurl=$(git remote get-url origin | sed 's/^git@github\.com:\(.*\)\.git$/https:\/\/github.com\/\1/')
+  url="$baseurl/compare/master...$branch?expand=1"
+  open -a /Applications/Google\ Chrome.app "$url"
 }
 
 #prompt
 #======================================================================
-RED="\[\e[0;31m\]"
 CYAN="\[\e[0;36m\]"
 GREEN="\[\e[0;32m\]"
-LGREEN="\[\e[1;32m\]"
-WHITE="\[\e[0;37m\]"
 PURPLE="\[\e[0;35m\]"
 BLUE="\[\e[1;34m\]"
 
-function getTime() {
-  date +%H:%M:%S
-}
-
 function ref() {
-  git branch --no-color 2>/dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/\[\1\]/" || return
+  if [ -z "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]; then
+    return
+  fi
+  if [ -z "$(git rev-parse --verify HEAD 2>/dev/null)" ]; then
+    return
+  fi
+  branch=$(git rev-parse --abbrev-ref HEAD)
+  if [ "$branch" != "master" ]; then
+    echo "[$branch]"
+  fi
 }
 
 function sha() {
   git rev-parse --short HEAD 2>/dev/null | sed -e "s/\(.*\)/\[\1\]/" || return
 }
 
-PS1="$GREEN\u@\h$WHITE[\$(getTime)]$CYAN\$(ref)$PURPLE\$(sha)$BLUE\w\[\e[0m\]: "
+function pos() {
+  if [ -z "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]; then
+    return
+  fi
+  if [ -z "$(git rev-parse --verify HEAD 2>/dev/null)" ]; then
+    return
+  fi
+  fork_point=$(git merge-base --fork-point origin/master)
+  fork_count=$(if [ -n "$fork_point" ]; then git rev-list --count "$fork_point"; else echo "0"; fi;)
+  head_count=$(git rev-list --count HEAD)
+  echo "[$fork_count.$(( head_count - fork_count ))]"
+}
+
+PS1="$CYAN\$(pos)$GREEN\$(ref)$PURPLE\$(sha)$BLUE\w\[\e[0m\]: "
+export GPG_TTY=$(tty)
+
+eval "$(rbenv init -)"

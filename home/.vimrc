@@ -20,6 +20,11 @@ nnoremap <silent> <C-h> :tabprevious<CR>
 nnoremap <silent> <C-l> :tabnext<CR>
 nnoremap <silent> <C-t> :tabe %:h<CR>
 
+augroup nonvim
+   au!
+   au BufReadCmd *.png,*.jpg,*gif,*.pdf sil exe '!open' shellescape(expand("<afile>")) | bd
+augroup end
+
 "theme
 let g:airline_theme='base16_atelierforest'
 let g:airline_powerline_fonts = 1
@@ -34,8 +39,15 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-
 "typescript
 let g:tsuquyomi_disable_default_mappings = 1
 let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tslint', 'tsuquyomi']
+let g:syntastic_typescript_checkers = ['tslint', 'tsuquyomi', 'text/language_check']
 let g:syntastic_typescript_tslint_args = ['--fix']
+
+" i would prefer to just not include stylelint if there is no config
+" but with the logic stylelint uses to find the config, this seemed
+" easier
+let empty_stylelint_output = '"[{\"source\":\"\",\"deprecations\":[],\"invalidOptionWarnings\":[],\"parseErrors\":[],\"warnings\":[]}]"' 
+let g:syntastic_css_stylelint_tail = '| (read -r output; if [[ "$output" == "Error: No configuration"* ]]; then echo ' . empty_stylelint_output . '; else echo -n $output; fi)'
+
 autocmd FileType typescript nnoremap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 autocmd FileType typescript nnoremap <buffer> <Leader>g :TsuImport<CR>
 
@@ -64,6 +76,9 @@ endfunction
 
 au BufRead,BufNewFile *.lavender setfiletype jade
 
+let g:startify_custom_header = [ ]
+
 execute pathogen#infect()
 
 color basic-dark
+hi Normal ctermbg=None
